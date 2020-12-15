@@ -14,7 +14,8 @@
   "scripts": {
     "dev": "rescripts start",
     "build": "rescripts build",
-    "test": "rescripts test"
+    "test": "rescripts test",
+    "lint:fix": "standard --fix | snazzy"
   },
   "eslintConfig": {
     "parser": "babel-eslint",
@@ -51,6 +52,8 @@
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.2.1",
-    "eslint-plugin-react": "7.21.5"
+    "eslint-plugin-react": "7.21.5",
+    "snazzy": "9.0.0",
+    "standard": "16.0.3"
   }
 }
