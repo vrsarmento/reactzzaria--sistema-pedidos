@@ -30,6 +30,12 @@
   "rescripts": [
     "env"
   ],
+  "standard": {
+    "parser": "babel-eslint",
+    "globals": [
+      "fetch"
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
