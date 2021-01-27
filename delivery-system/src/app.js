@@ -24,7 +24,7 @@ function App ({ location }) {
       })
       setDidCheckUserLogged(true)
     })
-  }, [])
+  }, [setUserInfo])
 
   if (!didCheckUserLogged) {
     return <LinearProgress />
