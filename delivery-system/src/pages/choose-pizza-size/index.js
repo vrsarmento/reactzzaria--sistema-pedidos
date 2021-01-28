@@ -1,10 +1,12 @@
 import React, { useContext } from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { AuthContext } from 'contexts/auth'
 import {
+  Card,
+  CardActionArea as MaterialCardActionArea,
   Divider as MaterialDivider,
   Grid,
-  Paper,
   Typography
 } from '@material-ui/core'
 import pizzasSizes from 'fake-data/pizzas-sizes'
@@ -26,20 +28,26 @@ const ChoosePizzaSize = () => {
       <PizzasGrid>
         {pizzasSizes.map((pizza) => (
           <Grid item key={pizza.id} xs>
-            <PaperPizza>
-              <Pizza>
-                <PizzaText>{pizza.size}cm</PizzaText>
-              </Pizza>
+            <Card>
+              <CardActionArea to={{
+                pathname: '/sabores-da-pizza',
+                state: pizza
+              }}
+              >
+                <Pizza>
+                  <PizzaText>{pizza.size}cm</PizzaText>
+                </Pizza>
 
-              <Divider />
+                <Divider />
 
-              <Typography variant='h5'>{pizza.name}</Typography>
-              <Typography>
-                {pizza.slices} fatias, {' '}
-                {pizza.flavours} {' '}
-                {singularOrPlural(pizza.flavours, 'sabor', 'sabores')}
-              </Typography>
-            </PaperPizza>
+                <Typography variant='h5'>{pizza.name}</Typography>
+                <Typography>
+                  {pizza.slices} fatias, {' '}
+                  {pizza.flavours} {' '}
+                  {singularOrPlural(pizza.flavours, 'sabor', 'sabores')}
+                </Typography>
+              </CardActionArea>
+            </Card>
           </Grid>
         ))}
       </PizzasGrid>
@@ -68,7 +76,9 @@ const PizzasGrid = styled(Grid).attrs({
   padding: 20px;
 `
 
-const PaperPizza = styled(Paper)`
+const CardActionArea = styled(MaterialCardActionArea).attrs({
+  component: Link
+})`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -79,11 +89,14 @@ const PaperPizza = styled(Paper)`
 const Pizza = styled.div`
   width: 200px;
   height: 200px;
+  background: #fff;
   border: 1px solid #ccc;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  z-index: 1;
 
   &::before,
   &::after {
