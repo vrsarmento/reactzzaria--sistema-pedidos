@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import { withStyles } from '@material-ui/core'
 import Header from './header'
