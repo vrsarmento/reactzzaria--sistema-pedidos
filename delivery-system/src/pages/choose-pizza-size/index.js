@@ -9,6 +9,8 @@ import {
   Grid,
   Typography
 } from '@material-ui/core'
+import { H4, H5 } from 'ui'
+import { singularOrPlural } from 'utils'
 import pizzasSizes from 'fake-data/pizzas-sizes'
 
 import { CHOOSE_PIZZA_FLAVOURS } from 'routes'
@@ -19,12 +21,12 @@ const ChoosePizzaSize = () => {
   return (
     <>
       <Grid container direction='column' alignItems='center'>
-        <Title variant='h4'>
+        <H4>
           O que vai ser hoje, {userInfo.user.firstName}?
-        </Title>
-        <Title variant='h5'>
+        </H4>
+        <H5>
           Escolha o tamanho da pizza:
-        </Title>
+        </H5>
       </Grid>
 
       <PizzasGrid>
@@ -56,15 +58,6 @@ const ChoosePizzaSize = () => {
     </>
   )
 }
-
-function singularOrPlural (amount, singular, plural) {
-  return amount === 1 ? singular : plural
-}
-
-const Title = styled(Typography).attrs({
-  gutterBottom: true,
-  align: 'center'
-})``
 
 const Divider = styled(MaterialDivider)`
   width: 100%;
