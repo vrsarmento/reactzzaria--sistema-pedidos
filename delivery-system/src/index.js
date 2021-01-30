@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Root from './root'
+import reportWebVitals from './reportWebVitals'
 
 import ErrorBoundary from './error'
 
@@ -14,3 +15,5 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 )
+
+reportWebVitals()
