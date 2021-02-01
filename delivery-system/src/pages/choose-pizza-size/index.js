@@ -1,17 +1,14 @@
 import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { AuthContext } from 'contexts/auth'
 import {
   Card,
-  CardActionArea as MaterialCardActionArea,
-  Divider as MaterialDivider,
   Grid,
   Typography
 } from '@material-ui/core'
-import { H4, H5 } from 'ui'
+import { CardLink, Divider, H4, H5, PizzasGrid } from 'ui'
 import { singularOrPlural } from 'utils'
-import pizzasSizes from 'fake-data/pizzas-sizes'
+import { pizzasSizes } from 'fake-data'
 
 import { CHOOSE_PIZZA_FLAVOURS } from 'routes'
 
@@ -33,7 +30,7 @@ const ChoosePizzaSize = () => {
         {pizzasSizes.map((pizza) => (
           <Grid item key={pizza.id} xs>
             <Card>
-              <CardActionArea to={{
+              <CardLink to={{
                 pathname: CHOOSE_PIZZA_FLAVOURS,
                 state: pizza
               }}
@@ -50,7 +47,7 @@ const ChoosePizzaSize = () => {
                   {pizza.flavours} {' '}
                   {singularOrPlural(pizza.flavours, 'sabor', 'sabores')}
                 </Typography>
-              </CardActionArea>
+              </CardLink>
             </Card>
           </Grid>
         ))}
@@ -58,28 +55,6 @@ const ChoosePizzaSize = () => {
     </>
   )
 }
-
-const Divider = styled(MaterialDivider)`
-  width: 100%;
-  margin: 20px 0;
-`
-
-const PizzasGrid = styled(Grid).attrs({
-  container: true,
-  spacing: 2
-})`
-  padding: 20px;
-`
-
-const CardActionArea = styled(MaterialCardActionArea).attrs({
-  component: Link
-})`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 250px;
-  padding: 20px 0;
-`
 
 const Pizza = styled.div`
   width: 200px;
