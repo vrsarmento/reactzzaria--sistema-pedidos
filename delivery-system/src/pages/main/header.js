@@ -52,7 +52,7 @@ const Header = () => {
 
 const Toolbar = styled(MaterialToolbar)`
   width: 100%;
-  max-width: 960px;
+  max-width: ${({ theme }) => theme.breakpoints.values.lg}px;
   margin: 0 auto;
 `
 
@@ -65,11 +65,11 @@ const Logo = styled(LogoSvg)`
   height: 50px;
 
   & path {
-    fill: #fff;
+    fill: ${({ theme }) => theme.palette.common.white};
   }
 
   & line {
-    stroke: #fff;
+    stroke: ${({ theme }) => theme.palette.common.white};
   }
 `
 
