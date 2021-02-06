@@ -8,7 +8,7 @@ import {
   Typography
 } from '@material-ui/core'
 import { CardLink, Divider, H5, HeaderContent, PizzasGrid } from 'ui'
-import { singularOrPlural } from 'utils'
+import { singularOrPlural, toMoney } from 'utils'
 import { HOME } from 'routes'
 import { pizzasFlavours } from 'fake-data'
 
@@ -60,7 +60,7 @@ const ChoosePizzaFlavours = ({ location }) => {
 
                 <Typography>{pizza.name}</Typography>
                 <Typography variant='h5'>
-                  R$ {pizza.value[id]}
+                  {toMoney(pizza.value[id])}
                 </Typography>
               </Label>
             </Card>
