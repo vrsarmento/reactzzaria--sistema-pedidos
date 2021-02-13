@@ -1,24 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import t from 'prop-types'
 import styled from 'styled-components'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import {
+  Button as MaterialButton,
   Card as MaterialCard,
+  Container,
   Grid,
   Typography
 } from '@material-ui/core'
-import { CardLink, Divider, H5, HeaderContent, PizzasGrid } from 'ui'
+import { ArrowBackIos, ArrowForwardIos } from '@material-ui/icons'
+import { CardLink, Content, Divider, H5, HeaderContent, PizzasGrid } from 'ui'
 import { singularOrPlural, toMoney } from 'utils'
-import { HOME } from 'routes'
+import { CHOOSE_PIZZA_QUANTITY, HOME } from 'routes'
+import { AuthContext } from 'contexts/auth'
+
 import { pizzasFlavours } from 'fake-data'
 
 const ChoosePizzaFlavours = ({ location }) => {
+  const { userInfo } = useContext(AuthContext)
   const [checkboxes, setCheckboxes] = useState(() => ({}))
 
   if (!location.state) {
     return <Redirect to={HOME} />
   }
-  const { flavours, id } = location.state
+  const { flavours, id, name, slices } = location.state
 
   const handleChangeCheckbox = (pizzaId) => (e) => {
     if (
@@ -38,35 +44,72 @@ const ChoosePizzaFlavours = ({ location }) => {
 
   return (
     <>
-      <HeaderContent>
-        <H5>
-          Escolha até {flavours}{' '}
-          {singularOrPlural(flavours, 'sabor', 'sabores')}:
-        </H5>
-      </HeaderContent>
+      <Content>
+        <HeaderContent>
+          <H5>
+            Escolha até {flavours}{' '}
+            {singularOrPlural(flavours, 'sabor', 'sabores')}:
+          </H5>
+        </HeaderContent>
 
-      <PizzasGrid>
-        {pizzasFlavours.map((pizza) => (
-          <Grid item key={pizza.id} xs>
-            <Card checked={!!checkboxes[pizza.id]}>
-              <Label>
-                <Checkbox
-                  checked={!!checkboxes[pizza.id]}
-                  onChange={handleChangeCheckbox(pizza.id)}
-                />
-                <Img src={pizza.image} alt={pizza.name} />
+        <PizzasGrid>
+          {pizzasFlavours.map((pizza) => (
+            <Grid item key={pizza.id} xs>
+              <Card checked={!!checkboxes[pizza.id]}>
+                <Label>
+                  <Checkbox
+                    checked={!!checkboxes[pizza.id]}
+                    onChange={handleChangeCheckbox(pizza.id)}
+                  />
+                  <Img src={pizza.image} alt={pizza.name} />
 
-                <Divider />
+                  <Divider />
 
-                <Typography>{pizza.name}</Typography>
-                <Typography variant='h5'>
-                  {toMoney(pizza.value[id])}
-                </Typography>
-              </Label>
-            </Card>
+                  <Typography>{pizza.name}</Typography>
+                  <Typography variant='h5'>
+                    {toMoney(pizza.value[id])}
+                  </Typography>
+                </Label>
+              </Card>
+            </Grid>
+          ))}
+        </PizzasGrid>
+      </Content>
+
+      <Footer>
+        <Container>
+          <Grid container>
+            <OrderContainer>
+              <Typography>
+                <b>{userInfo.user.firstName}, seu pedido é:</b>
+              </Typography>
+              <Typography>
+                Pizza <b>{name.toUpperCase()}</b> {'- '}
+                ({slices} fatias, {' '}
+                {flavours} {singularOrPlural(flavours, 'sabor', 'sabores')})
+              </Typography>
+            </OrderContainer>
+
+            <Grid item>
+              <Button
+                to={HOME}
+                startIcon={<ArrowBackIos />}
+              >
+                Mudar tamanho
+              </Button>
+
+              <Button
+                to={CHOOSE_PIZZA_QUANTITY}
+                color='primary'
+                endIcon={<ArrowForwardIos />}
+                disabled={checkboxesChecked(checkboxes).length === 0 ? 'true' : ''}
+              >
+                Quantas pizzas?
+              </Button>
+            </Grid>
           </Grid>
-        ))}
-      </PizzasGrid>
+        </Container>
+      </Footer>
     </>
   )
 }
@@ -95,6 +138,25 @@ const Card = styled(MaterialCard)`
     ? theme.palette.secondary.dark
     : ''
   };
+`
+
+const Footer = styled.footer`
+  box-shadow: 0 0 3px ${({ theme }) => theme.palette.grey[400]};
+  padding: ${({ theme }) => theme.spacing(3)}px;
+  width: 100%;
+`
+
+const OrderContainer = styled(Grid).attrs({
+  item: true
+})`
+  flex-grow: 1;
+`
+
+const Button = styled(MaterialButton).attrs({
+  variant: 'contained',
+  component: Link
+})`
+  margin-left: ${({ theme }) => theme.spacing(2)}px;
 `
 
 function checkboxesChecked (checkboxes) {
