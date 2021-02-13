@@ -1,4 +1,5 @@
 export const HOME = '/'
 export const LOGIN = '/login'
-export const CHOOSE_PIZZA_SIZE = '/tamanho-da-pizza'
-export const CHOOSE_PIZZA_FLAVOURS = '/sabores-da-pizza'
+export const CHOOSE_PIZZA_SIZE = '/escolher-tamanho'
+export const CHOOSE_PIZZA_FLAVOURS = '/escolher-sabores'
+export const CHOOSE_PIZZA_QUANTITY = '/escolher-quantidade'
