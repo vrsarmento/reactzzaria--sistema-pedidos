@@ -1,6 +1,5 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { AuthContext } from 'contexts/auth'
 import {
   Card,
   Grid,
@@ -8,12 +7,13 @@ import {
 } from '@material-ui/core'
 import { CardLink, Content, Divider, H4, H5, PizzasGrid } from 'ui'
 import { singularOrPlural } from 'utils'
+import { useAuth } from 'hooks'
 import { pizzasSizes } from 'fake-data'
 
 import { CHOOSE_PIZZA_FLAVOURS } from 'routes'
 
 const ChoosePizzaSize = () => {
-  const { userInfo } = useContext(AuthContext)
+  const { userInfo } = useAuth()
 
   return (
     <>

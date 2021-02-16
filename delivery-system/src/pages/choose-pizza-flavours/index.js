@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import t from 'prop-types'
 import styled from 'styled-components'
 import { Link, Redirect } from 'react-router-dom'
@@ -13,12 +13,12 @@ import { ArrowBackIos, ArrowForwardIos } from '@material-ui/icons'
 import { CardLink, Content, Divider, H5, HeaderContent, PizzasGrid } from 'ui'
 import { singularOrPlural, toMoney } from 'utils'
 import { CHOOSE_PIZZA_QUANTITY, HOME } from 'routes'
-import { AuthContext } from 'contexts/auth'
+import { useAuth } from 'hooks'
 
 import { pizzasFlavours } from 'fake-data'
 
 const ChoosePizzaFlavours = ({ location }) => {
-  const { userInfo } = useContext(AuthContext)
+  const { userInfo } = useAuth()
   const [checkboxes, setCheckboxes] = useState(() => ({}))
 
   if (!location.state) {
