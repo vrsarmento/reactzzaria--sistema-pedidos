@@ -102,7 +102,7 @@ const ChoosePizzaFlavours = ({ location }) => {
                 to={CHOOSE_PIZZA_QUANTITY}
                 color='primary'
                 endIcon={<ArrowForwardIos />}
-                disabled={checkboxesChecked(checkboxes).length === 0 ? 'true' : ''}
+                disabled={checkboxesChecked(checkboxes).length === 0}
               >
                 Quantas pizzas?
               </Button>
