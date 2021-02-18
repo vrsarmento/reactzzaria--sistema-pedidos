@@ -39,7 +39,7 @@ function Footer ({ buttons, history, location }) {
             )}
           </OrderContainer>
 
-          <Grid item>
+          <ButtonsContainer>
             <Button
               {...buttons.back}
               component='a'
@@ -53,7 +53,7 @@ function Footer ({ buttons, history, location }) {
               {...buttons.action}
               component={Link}
             />
-          </Grid>
+          </ButtonsContainer>
         </Grid>
       </Container>
     </FooterContent>
@@ -68,7 +68,7 @@ Footer.propTypes = {
 
 const FooterContent = styled.footer`
   box-shadow: 0 0 3px ${({ theme }) => theme.palette.grey[400]};
-  padding: ${({ theme }) => theme.spacing(3)}px;
+  padding: ${({ theme }) => theme.spacing(3, 2)};
   width: 100%;
 `
 
@@ -76,6 +76,13 @@ const OrderContainer = styled(Grid).attrs({
   item: true
 })`
   flex-grow: 1;
+`
+
+const ButtonsContainer = styled(Grid).attrs({
+  item: true
+})`
+  display: flex;
+  align-items: center;
 `
 
 const Button = styled(MaterialButton).attrs({
