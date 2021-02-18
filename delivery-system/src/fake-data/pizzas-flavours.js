@@ -1,7 +1,7 @@
 /* eslint-disable quote-props */
 const PizzasFlavours = [
   {
-    id: 0,
+    id: '0',
     image: '/fake-data/images/pizza-calabresa.png',
     name: 'Calabresa',
     value: {
@@ -12,7 +12,7 @@ const PizzasFlavours = [
   },
 
   {
-    id: 1,
+    id: '1',
     image: '/fake-data/images/pizza-frango-catupiry.png',
     name: 'Frango com Catupiry',
     value: {
@@ -23,7 +23,7 @@ const PizzasFlavours = [
   },
 
   {
-    id: 2,
+    id: '2',
     image: '/fake-data/images/pizza-prestigio.jpg',
     name: 'Prestígio',
     value: {
