@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { Input as MaterialInput } from '@material-ui/core'
 import { ArrowBackIos, Done } from '@material-ui/icons'
 import { Content, Footer, H5, HeaderContent } from 'ui'
-import { CHOOSE_PIZZA_FLAVOURS } from 'routes'
 
 const ChoosePizzaQuantity = () => {
   return (
@@ -22,21 +21,20 @@ const ChoosePizzaQuantity = () => {
       </Content>
 
       <Footer
-        buttons={[
-          {
-            to: CHOOSE_PIZZA_FLAVOURS,
+        buttons={{
+          back: {
             children: 'Mudar sabores',
             startIcon: <ArrowBackIos />
           },
 
-          {
+          action: {
             to: '/',
             children: 'Finalizar compra',
             color: 'primary',
             endIcon: <Done />,
             disabled: false
           }
-        ]}
+        }}
       />
     </>
   )

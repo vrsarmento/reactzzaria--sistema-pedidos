@@ -73,14 +73,13 @@ const ChoosePizzaFlavours = ({ location }) => {
       </Content>
 
       <Footer
-        buttons={[
-          {
-            to: HOME,
+        buttons={{
+          back: {
             children: 'Mudar tamanho',
             startIcon: <ArrowBackIos />
           },
 
-          {
+          action: {
             to: {
               pathname: CHOOSE_PIZZA_QUANTITY,
               state: {
@@ -93,7 +92,7 @@ const ChoosePizzaFlavours = ({ location }) => {
             endIcon: <ArrowForwardIos />,
             disabled: checkboxesChecked(checkboxes).length === 0
           }
-        ]}
+        }}
       />
     </>
   )
