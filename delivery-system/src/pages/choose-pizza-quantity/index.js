@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import t from 'prop-types'
 import styled from 'styled-components'
 import {
@@ -9,9 +9,11 @@ import {
 import { ArrowBackIos, Done } from '@material-ui/icons'
 import { Content, Footer, H5, HeaderContent } from 'ui'
 import { CHECKOUT, HOME } from 'routes'
+import { useOrder } from 'hooks'
 
 const ChoosePizzaQuantity = ({ location }) => {
   const [quantity, setQuantity] = useState(1)
+  const { addPizzaToOrder } = useOrder()
 
   if (!location.state) {
     return <Redirect to={HOME} />
@@ -22,6 +24,14 @@ const ChoosePizzaQuantity = ({ location }) => {
     if (value >= 1) {
       setQuantity(e.target.value)
     }
+  }
+
+  function handleAddPizzaToOrder () {
+    addPizzaToOrder({
+      size: location.state.pizzaSize.id,
+      flavours: location.state.pizzaFlavours.map((f) => f.id),
+      quantity
+    })
   }
 
   return (
@@ -36,10 +46,10 @@ const ChoosePizzaQuantity = ({ location }) => {
 
         <MainContent>
           <Input value={quantity} autoFocus onChange={handleChange} />
-          <Button variant='contained' color='secondary'>
-            Adicionar essa e <br />
-            montar outra pizza
-          </Button>
+          <ButtonAddPizza onClick={handleAddPizzaToOrder}>
+            Adicionar esta ao pedido <br />
+            e montar outra pizza
+          </ButtonAddPizza>
         </MainContent>
       </Content>
 
@@ -52,6 +62,7 @@ const ChoosePizzaQuantity = ({ location }) => {
 
           action: {
             to: CHECKOUT,
+            onClick: handleAddPizzaToOrder,
             children: 'Finalizar compra',
             color: 'primary',
             endIcon: <Done />
@@ -84,6 +95,14 @@ const Input = styled(MaterialInput).attrs({
     text-align: center;
     width: 150px;
   }
+`
+
+const ButtonAddPizza = styled(Button).attrs({
+  color: 'secondary',
+  component: Link,
+  variant: 'contained'
+})`
+  text-align: center;
 `
 
 export default ChoosePizzaQuantity
