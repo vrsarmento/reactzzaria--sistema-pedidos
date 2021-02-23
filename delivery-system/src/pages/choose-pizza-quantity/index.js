@@ -46,7 +46,7 @@ const ChoosePizzaQuantity = ({ location }) => {
 
         <MainContent>
           <Input value={quantity} autoFocus onChange={handleChange} />
-          <ButtonAddPizza onClick={handleAddPizzaToOrder}>
+          <ButtonAddPizza to={HOME} onClick={handleAddPizzaToOrder}>
             Adicionar esta ao pedido <br />
             e montar outra pizza
           </ButtonAddPizza>
