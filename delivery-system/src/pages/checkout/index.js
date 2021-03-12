@@ -10,12 +10,12 @@ import {
 } from '@material-ui/core'
 import {
   Content,
-  Footer,
   OrderInfo,
   Title as UiTitle
 } from 'ui'
 import { Done } from '@material-ui/icons'
 import { CHECKOUT_CONFIRMATION } from 'routes'
+import FooterCheckout from './footer-checkout'
 
 function Checkout () {
   return (
@@ -52,19 +52,17 @@ function Checkout () {
         </Grid>
       </Content>
 
-      <Footer>
-        <FooterContent>
-          <Button
-            variant='contained'
-            color='primary'
-            endIcon={<Done />}
-            component={Link}
-            to={CHECKOUT_CONFIRMATION}
-          >
-            Confirmar dados
-          </Button>
-        </FooterContent>
-      </Footer>
+      <FooterCheckout>
+        <Button
+          variant='contained'
+          color='primary'
+          endIcon={<Done />}
+          component={Link}
+          to={CHECKOUT_CONFIRMATION}
+        >
+          Confirmar dados
+        </Button>
+      </FooterCheckout>
     </>
   )
 }
@@ -97,11 +95,6 @@ const PaperContainer = styled(Paper)`
   flex-grow: 1;
   margin-bottom: ${({ theme }) => theme.spacing(5)}px;
   padding: ${({ theme }) => theme.spacing(2)}px;
-`
-
-const FooterContent = styled.div`
-  display: flex;
-  justify-content: flex-end;
 `
 
 export default Checkout
