@@ -2,6 +2,7 @@ import React from 'react'
 import t from 'prop-types'
 import styled from 'styled-components'
 import {
+  Button,
   Grid,
   List,
   ListItem,
@@ -14,6 +15,7 @@ import {
   Footer,
   Title as UiTitle
 } from 'ui'
+import { Done } from '@material-ui/icons'
 import { useOrder } from 'hooks'
 import { singularOrPlural } from 'utils'
 
@@ -56,7 +58,7 @@ function Checkout () {
                   return (
                     <ListItem key={index}>
                       <Typography>
-                        {quantity} {' '}
+                        <b>{quantity} </b>
                         {singularOrPlural(quantity, 'pizza', 'pizzas')}
                         <b> {name.toUpperCase()} </b>
                         ({slices} fatias, até {flavours}
@@ -77,7 +79,11 @@ function Checkout () {
       </Content>
 
       <Footer>
-        Footer do Checkout
+        <FooterContent>
+          <Button variant='contained' color='primary' endIcon={<Done />}>
+            Confirmar dados
+          </Button>
+        </FooterContent>
       </Footer>
     </>
   )
@@ -111,6 +117,11 @@ const PaperContainer = styled(Paper)`
   flex-grow: 1;
   margin-bottom: ${({ theme }) => theme.spacing(5)}px;
   padding: ${({ theme }) => theme.spacing(2)}px;
+`
+
+const FooterContent = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `
 
 export default Checkout
