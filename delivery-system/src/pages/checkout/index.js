@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import t from 'prop-types'
 import styled from 'styled-components'
 import {
@@ -14,10 +14,17 @@ import {
   Title as UiTitle
 } from 'ui'
 import { Done } from '@material-ui/icons'
-import { CHECKOUT_CONFIRMATION } from 'routes'
 import FooterCheckout from './footer-checkout'
+import { CHECKOUT_CONFIRMATION, HOME } from 'routes'
+import { useOrder } from 'hooks'
 
 function Checkout () {
+  const { order } = useOrder()
+
+  if (!order.pizzas.length) {
+    return <Redirect to={HOME} />
+  }
+
   return (
     <>
       <Content>
@@ -46,7 +53,7 @@ function Checkout () {
           <Grid container item sx={12} md={6} direction='column'>
             <Title>Informações do seu pedido:</Title>
             <PaperContainer>
-              <OrderInfo />
+              <OrderInfo showOptions />
             </PaperContainer>
           </Grid>
         </Grid>
@@ -59,8 +66,9 @@ function Checkout () {
           endIcon={<Done />}
           component={Link}
           to={CHECKOUT_CONFIRMATION}
+          disabled={!order.pizzas.length}
         >
-          Confirmar dados
+          Confirmar pedido
         </Button>
       </FooterCheckout>
     </>
