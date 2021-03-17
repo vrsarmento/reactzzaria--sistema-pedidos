@@ -15,12 +15,13 @@ import {
   OrderInfo
 } from 'ui'
 import { Send } from '@material-ui/icons'
-import { useAuth } from 'hooks'
+import { useAuth, useOrder } from 'hooks'
 import { CHECKOUT_SUCCESS } from 'routes'
 import FooterCheckout from 'pages/checkout/footer-checkout'
 
 function CheckoutConfirmation () {
   const { userInfo } = useAuth()
+  const { sendOrder } = useOrder()
 
   return (
     <>
@@ -28,7 +29,7 @@ function CheckoutConfirmation () {
         <Header>
           <H4>Oi, {userInfo.user.firstName}!</H4>
           <Typography>
-            Confira, por favor, se está tudo certo com o seu pedido antes de finalizar.
+            Por favor, confira se está tudo certo com o seu pedido antes de finalizar.
           </Typography>
         </Header>
 
@@ -62,6 +63,7 @@ function CheckoutConfirmation () {
           endIcon={<Send />}
           component={Link}
           to={CHECKOUT_SUCCESS}
+          onClick={sendOrder}
         >
           Efetuar pedido
         </Button>
