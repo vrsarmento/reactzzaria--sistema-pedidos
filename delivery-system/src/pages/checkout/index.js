@@ -14,7 +14,7 @@ import {
 import { Done } from '@material-ui/icons'
 import FooterCheckout from './footer-checkout'
 import FormAddress from './form-address'
-import TextField from './text-field'
+import PhoneField from './phone-field'
 import { CHECKOUT_CONFIRMATION, HOME } from 'routes'
 import { useOrder } from 'hooks'
 
@@ -37,7 +37,7 @@ function Checkout () {
 
             <Title>Informe um telefone para contato:</Title>
             <PaperContainer>
-              <TextField label='Telefone' xs={6} />
+              <PhoneField />
             </PaperContainer>
           </Grid>
 
