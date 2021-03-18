@@ -10,6 +10,7 @@ function FormAddress () {
   const [addressState, dispatch] = useReducer(reducer, initialState)
   const [fetchingCep, setFetchingCep] = useState(false)
   const numberField = useRef()
+  const addressField = useRef()
 
   useEffect(() => {
     async function fetchAddress () {
@@ -19,8 +20,28 @@ function FormAddress () {
 
       setFetchingCep(true)
       const data = await fetch(`https://ws.apicep.com/cep/${cep}.json`)
-      const result = await data.json()
       setFetchingCep(false)
+
+      if (!data.ok) {
+        dispatch({
+          type: 'RESET'
+        })
+        addressField.current.focus()
+        return
+      }
+
+      const result = await data.json()
+
+      if (!result.ok) {
+        dispatch({
+          type: 'FAIL',
+          payload: {
+            error: result.message
+          }
+        })
+        return
+      }
+
       dispatch({
         type: 'UPDATE_FULL_ADDRESS',
         payload: result
@@ -60,6 +81,8 @@ function FormAddress () {
         autoFocus
         value={cep}
         onChange={handleChangeCep}
+        error={!!addressState.error}
+        helperText={addressState.error}
       />
 
       <Grid item xs={6}>
@@ -70,7 +93,8 @@ function FormAddress () {
         {
           label: 'Rua',
           xs: 9,
-          name: 'address'
+          name: 'address',
+          inputRef: addressField
         },
         {
           label: 'Número',
@@ -120,7 +144,8 @@ function reducer (state, action) {
   if (action.type === 'UPDATE_FULL_ADDRESS') {
     return {
       ...state,
-      ...action.payload
+      ...action.payload,
+      error: null
     }
   }
 
@@ -129,6 +154,17 @@ function reducer (state, action) {
       ...state,
       [action.payload.name]: action.payload.value
     }
+  }
+
+  if (action.type === 'FAIL') {
+    return {
+      ...initialState,
+      error: action.payload.error
+    }
+  }
+
+  if (action.type === 'RESET') {
+    return initialState
   }
 
   return state
