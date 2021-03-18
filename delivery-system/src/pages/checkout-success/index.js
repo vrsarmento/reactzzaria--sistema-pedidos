@@ -10,18 +10,20 @@ import {
 } from '@material-ui/core'
 import {
   Content,
+  DeliveryInfo,
   H4,
   H5,
   H6,
   OrderInfo
 } from 'ui'
 import { ArrowBackIos } from '@material-ui/icons'
-import { useAuth } from 'hooks'
+import { useAuth, useOrder } from 'hooks'
 import { HOME } from 'routes'
 import FooterCheckout from 'pages/checkout/footer-checkout'
 
 function CheckoutSuccess () {
   const { userInfo } = useAuth()
+  const { order } = useOrder()
 
   return (
     <>
@@ -41,17 +43,7 @@ function CheckoutSuccess () {
 
             <Divider />
 
-            <H6>Endereço para entrega:</H6>
-            <Typography>
-              Rua tal, num 0 - Bairro lá - CEP: 00.000-000
-            </Typography>
-
-            <Divider />
-
-            <H6>Telefone para contato:</H6>
-            <Typography>
-              (00) 00000-0000
-            </Typography>
+            <DeliveryInfo order={order} />
           </PaperContainer>
         </Container>
       </Content>

@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core'
 import {
   Content,
+  DeliveryInfo,
   H4,
   H6,
   OrderInfo
@@ -21,7 +22,7 @@ import FooterCheckout from 'pages/checkout/footer-checkout'
 
 function CheckoutConfirmation () {
   const { userInfo } = useAuth()
-  const { sendOrder } = useOrder()
+  const { order, sendOrder } = useOrder()
 
   return (
     <>
@@ -40,17 +41,7 @@ function CheckoutConfirmation () {
 
             <Divider />
 
-            <H6>Endereço para entrega:</H6>
-            <Typography>
-              Rua tal, num 0 - Bairro lá - CEP: 00.000-000
-            </Typography>
-
-            <Divider />
-
-            <H6>Telefone para contato:</H6>
-            <Typography>
-              (00) 00000-0000
-            </Typography>
+            <DeliveryInfo order={order} />
           </PaperContainer>
         </Container>
       </Content>
