@@ -16,7 +16,7 @@ function OrderInfo ({ showOptions }) {
 
   return (
     <List>
-      {order.pizzas.map((pizza, index) => {
+      {order.pizzas.map((pizza) => {
         const { pizzaFlavours, pizzaSize, quantity } = pizza
         const { name, slices, flavours } = pizzaSize
 
