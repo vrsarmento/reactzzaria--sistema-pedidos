@@ -1,11 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useReducer, useRef } from 'react'
 import {
+  CircularProgress,
   Grid
 } from '@material-ui/core'
 import TextField from './text-field'
 
 function FormAddress () {
   const [cep, setCep] = useState('')
+  const [addressState, dispatch] = useReducer(reducer, initialState)
+  const [fetchingCep, setFetchingCep] = useState(false)
+  const numberField = useRef()
+
+  useEffect(() => {
+    async function fetchAddress () {
+      if (cep.length < 9) {
+        return
+      }
+
+      setFetchingCep(true)
+      const data = await fetch(`https://ws.apicep.com/cep/${cep}.json`)
+      const result = await data.json()
+      setFetchingCep(false)
+      dispatch({
+        type: 'UPDATE_FULL_ADDRESS',
+        payload: result
+      })
+
+      numberField.current.focus()
+    }
+
+    fetchAddress()
+  }, [cep])
 
   function handleChangeCep (e) {
     setCep(cepMask(e.target.value))
@@ -18,8 +43,17 @@ function FormAddress () {
       .replace(/(-\d{3})\d+?$/, '$1')
   }
 
+  function handleChangeField (e) {
+    const { name, value } = e.target
+
+    dispatch({
+      type: 'UPDATE_FIELD',
+      payload: { name, value }
+    })
+  }
+
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} alignItems='center'>
       <TextField
         label='CEP'
         xs={6}
@@ -27,15 +61,89 @@ function FormAddress () {
         value={cep}
         onChange={handleChangeCep}
       />
-      <TextField label='Rua' xs={12} />
-      <TextField label='Número' xs={3} />
-      <TextField label='Complemento' xs={3} />
-      <TextField label='Bairro' xs={6} />
-      <TextField label='Cidade' xs={9} />
-      <TextField label='Estado' xs={3} />
-      <TextField label='Observação' xs={12} />
+
+      <Grid item xs={6}>
+        {fetchingCep && <CircularProgress size={20} />}
+      </Grid>
+
+      {[
+        {
+          label: 'Rua',
+          xs: 9,
+          name: 'address'
+        },
+        {
+          label: 'Número',
+          xs: 3,
+          name: 'number',
+          inputRef: numberField
+        },
+        {
+          label: 'Complemento',
+          xs: 6,
+          name: 'complement'
+        },
+        {
+          label: 'Bairro',
+          xs: 6,
+          name: 'district'
+        },
+        {
+          label: 'Cidade',
+          xs: 9,
+          name: 'city'
+        },
+        {
+          label: 'Estado',
+          xs: 3,
+          name: 'state'
+        },
+        {
+          label: 'Observação',
+          xs: 12,
+          name: 'obs'
+        }
+      ].map((field) => (
+        <TextField
+          {...field}
+          key={field.name}
+          value={addressState[field.name]}
+          onChange={handleChangeField}
+          disabled={fetchingCep}
+        />
+      ))}
     </Grid>
   )
+}
+
+function reducer (state, action) {
+  if (action.type === 'UPDATE_FULL_ADDRESS') {
+    return {
+      ...state,
+      ...action.payload
+    }
+  }
+
+  if (action.type === 'UPDATE_FIELD') {
+    return {
+      ...state,
+      [action.payload.name]: action.payload.value
+    }
+  }
+
+  return state
+}
+
+const initialState = {
+  code: '',
+  address: '',
+  number: '',
+  district: '',
+  complement: '',
+  city: '',
+  state: '',
+  obs: '',
+  error: null
 }
 
 export default FormAddress
