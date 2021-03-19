@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import {
   Card,
@@ -8,12 +8,33 @@ import {
 import { CardLink, Content, Divider, H4, H5, PizzasGrid } from 'ui'
 import { singularOrPlural } from 'utils'
 import { useAuth } from 'hooks'
-import { pizzasSizes } from 'fake-data'
-
+import { db } from 'services/firebase'
 import { CHOOSE_PIZZA_FLAVOURS } from 'routes'
 
 const ChoosePizzaSize = () => {
   const { userInfo } = useAuth()
+  const [pizzasSizes, setPizzasSizes] = useState([])
+
+  useEffect(() => {
+    let mounted = true
+
+    db.collection('pizzasSizes').get().then(querySnapshot => {
+      const sizes = []
+
+      querySnapshot.forEach(doc => {
+        sizes.push({
+          id: doc.id,
+          ...doc.data()
+        })
+      })
+
+      if (mounted) setPizzasSizes(sizes)
+    })
+
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   return (
     <>
