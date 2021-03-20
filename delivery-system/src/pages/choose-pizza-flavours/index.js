@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import t from 'prop-types'
 import styled from 'styled-components'
 import { Redirect } from 'react-router-dom'
@@ -7,40 +7,45 @@ import {
   Grid,
   Typography
 } from '@material-ui/core'
-import { ArrowBackIos, ArrowForwardIos } from '@material-ui/icons'
-import { CardLink, Content, Divider, Footer, H5, HeaderContent, PizzasGrid } from 'ui'
+import {
+  ArrowBackIos,
+  ArrowForwardIos
+} from '@material-ui/icons'
+import {
+  CardLink,
+  Content,
+  Divider,
+  Footer,
+  H3,
+  H5,
+  HeaderContent,
+  LoadingFull,
+  PizzasGrid
+} from 'ui'
 import { checkboxesChecked, singularOrPlural, toMoney } from 'utils'
 import { CHOOSE_PIZZA_QUANTITY, HOME } from 'routes'
-import { db } from 'services/firebase'
+import { useCollection } from 'hooks'
 
 const ChoosePizzaFlavours = ({ location }) => {
   const [checkboxes, setCheckboxes] = useState(() => ({}))
-  const [pizzasFlavours, setPizzasFlavours] = useState([])
-
-  useEffect(() => {
-    let mounted = true
-
-    db.collection('pizzasFlavours').get().then(querySnapshot => {
-      const flavours = []
-
-      querySnapshot.forEach(doc => {
-        flavours.push({
-          id: doc.id,
-          ...doc.data()
-        })
-      })
-
-      if (mounted) setPizzasFlavours(flavours)
-    })
-
-    return () => {
-      mounted = false
-    }
-  }, [])
+  const pizzasFlavours = useCollection('pizzasFlavours')
 
   if (!location.state) {
     return <Redirect to={HOME} />
   }
+
+  if (!pizzasFlavours) {
+    return (
+      <LoadingFull size={40} />
+    )
+  }
+
+  if (pizzasFlavours.length === 0) {
+    return (
+      <Content><H3>Não há dados.</H3></Content>
+    )
+  }
+
   const { flavours, id } = location.state.pizzaSize
 
   const handleChangeCheckbox = (pizzaId) => (e) => {

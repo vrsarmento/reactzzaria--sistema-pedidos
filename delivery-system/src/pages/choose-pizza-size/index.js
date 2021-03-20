@@ -1,40 +1,39 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import {
   Card,
   Grid,
   Typography
 } from '@material-ui/core'
-import { CardLink, Content, Divider, H4, H5, PizzasGrid } from 'ui'
+import {
+  CardLink,
+  Content,
+  Divider,
+  H3,
+  H4,
+  H5,
+  LoadingFull,
+  PizzasGrid
+} from 'ui'
 import { singularOrPlural } from 'utils'
-import { useAuth } from 'hooks'
-import { db } from 'services/firebase'
+import { useCollection, useAuth } from 'hooks'
 import { CHOOSE_PIZZA_FLAVOURS } from 'routes'
 
 const ChoosePizzaSize = () => {
   const { userInfo } = useAuth()
-  const [pizzasSizes, setPizzasSizes] = useState([])
+  const pizzasSizes = useCollection('pizzasSizes')
 
-  useEffect(() => {
-    let mounted = true
+  if (!pizzasSizes) {
+    return (
+      <LoadingFull size={40} />
+    )
+  }
 
-    db.collection('pizzasSizes').get().then(querySnapshot => {
-      const sizes = []
-
-      querySnapshot.forEach(doc => {
-        sizes.push({
-          id: doc.id,
-          ...doc.data()
-        })
-      })
-
-      if (mounted) setPizzasSizes(sizes)
-    })
-
-    return () => {
-      mounted = false
-    }
-  }, [])
+  if (pizzasSizes.length === 0) {
+    return (
+      <Content><H3>Não há dados.</H3></Content>
+    )
+  }
 
   return (
     <>
