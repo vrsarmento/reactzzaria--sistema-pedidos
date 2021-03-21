@@ -1,6 +1,7 @@
 import React from 'react'
 import t from 'prop-types'
-import { Divider, Typography } from '@material-ui/core'
+import styled from 'styled-components'
+import { Divider as MaterialDivider, Typography } from '@material-ui/core'
 import { H6 } from 'ui'
 
 function DeliveryInfo ({ order }) {
@@ -38,5 +39,9 @@ function DeliveryInfo ({ order }) {
 DeliveryInfo.propTypes = {
   order: t.object.isRequired
 }
+
+const Divider = styled(MaterialDivider)`
+  margin: ${({ theme }) => theme.spacing(3, 0)};
+`
 
 export default DeliveryInfo
